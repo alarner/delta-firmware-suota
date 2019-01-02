@@ -34,8 +34,11 @@ extern "C" {
 }
 
 #include "pin_port_mapping.h"
-
+#include "led_adapter.h"
+#include "led_color.h"
 #include "bluetooth_task.h"
+
+using namespace Climbalytics;
 
 #if (dg_configTRACK_OS_HEAP == 1)
 /*
@@ -117,6 +120,10 @@ static void systemInitialization(void *taskParameters)
 #if defined CONFIG_RETARGET
   retarget_init();
 #endif
+
+  LedAdapter led;
+  led.init();
+  led.setBrightnessLevel(LedColor_All, 50);
 
   /* Set the desired sleep mode. */
   pm_set_wakeup_mode(true);
